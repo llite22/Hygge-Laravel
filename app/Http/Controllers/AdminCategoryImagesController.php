@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryImagesRequest;
 use App\Models\Categories;
 use App\Models\CategoryImages;
+use Illuminate\Support\Facades\Storage;
 
 class AdminCategoryImagesController extends Controller
 {
     public function index()
     {
-        $categories = Categories::all();
-        $category_images = CategoryImages::all();
+        $category_images = Categories::with('images')->get();
         $table = 'category-images';
-        return view('pages.adminCategoryImages', compact('categories', 'category_images', 'table'));
+        return view('pages.adminCategoryImages', compact('category_images', 'table'));
     }
 
     public function create(CategoryImagesRequest $request)
@@ -65,6 +65,9 @@ class AdminCategoryImagesController extends Controller
     {
         $id = $request->segment(4);
         $category_images = CategoryImages::findOrFail($id);
+        if (Storage::disk('public')->exists($category_images->image)) {
+            Storage::disk('public')->delete($category_images->image);
+        }
         $category_images->delete();
         return redirect()->route('admin.category-images');
     }

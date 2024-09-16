@@ -1,5 +1,3 @@
-
-
 <div id="content" class="main-content">
     <div class="layout-px-spacing">
         <div class="my-5 w-100">
@@ -28,19 +26,22 @@
                                             @foreach($columns as $column)
                                                 @if($column === 'image')
                                                     <td>
-                                                        <span> <img src="{{ asset('storage/' . $row->$column) }}"
-                                                                    class="profile-img" alt="img" >
+
+                                                        @if($table === 'category-images')
+                                                            @foreach($row->images as $image)
+                                                                <span>
+                                                                    <img src="{{ asset('storage/' . $image->image) }}"
+                                                                         class="profile-img" alt="img">
+                                                                   </span>
+                                                            @endforeach
+                                                        @else
+                                                            <span> <img src="{{ asset('storage/' . $row->$column) }}"
+                                                                        class="profile-img" alt="img">
                                                         </span>
+                                                        @endif
                                                     </td>
                                                 @else
-                                                    @if($column === 'category_id')
-                                                        @php
-                                                            $category = $categories->firstWhere('id', $row->category_id);
-                                                        @endphp
-                                                        <td>{{ $category->name ?? 'Unknown' }}</td>
-                                                    @else
-                                                        <td>{{ $row->$column }}</td>
-                                                    @endif
+                                                    <td>{{ $row->$column }}</td>
                                                 @endif
                                             @endforeach
                                             {{--                                            <td class="text-center">--}}

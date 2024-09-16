@@ -13,4 +13,9 @@ class Categories extends Model
     protected $guarded = [];
     protected $fillable = ['name'];
 
+    public function images()
+    {
+        return $this->hasMany(CategoryImages::class, 'category_id', 'id');
+    }
+
 }
