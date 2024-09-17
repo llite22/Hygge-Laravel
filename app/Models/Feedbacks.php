@@ -13,4 +13,9 @@ class Feedbacks extends Model
     protected $table = 'feedbacks';
     protected $guarded = [];
     protected $fillable = ['name', 'email', 'phone', 'department', 'message'];
+
+    public function user() {
+        return $this->belongsTo(User::class, 'email', 'email');
+    }
+
 }

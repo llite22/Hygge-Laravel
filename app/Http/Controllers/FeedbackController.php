@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FeedbackRequest;
 use App\Models\Feedbacks;
+use Illuminate\Support\Facades\Log;
 
 class FeedbackController extends Controller
 {
@@ -16,6 +17,6 @@ class FeedbackController extends Controller
     {
         $data = $request->validated();
         Feedbacks::create($data);
-        return view('pages.feedback');
+        return redirect()->back();
     }
 }

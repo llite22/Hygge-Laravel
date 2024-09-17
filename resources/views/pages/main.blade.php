@@ -9,4 +9,5 @@
     @include('main.component.aboutTheCompany')
     @include('main.component.processModel')
     @include('main.component.meetOurTeam')
+
 @endsection

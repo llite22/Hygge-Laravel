@@ -27,7 +27,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </a></div>
+                        </a>
+                    </div>
                     @endforeach
                 @endforeach
                 <div class="divide30"></div>

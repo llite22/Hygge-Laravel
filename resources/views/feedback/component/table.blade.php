@@ -9,10 +9,12 @@
                             <div class="table-responsive mb-4">
                                 <table id="style-3" class="table style-3  table-hover">
                                     <thead>
-                                    <tr >
+                                    <tr>
                                         @foreach($columns_headers as $column_header)
                                             <th>{{ $column_header }}</th>
                                         @endforeach
+                                        <th></th>
+                                        <th>Статус</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -24,11 +26,11 @@
                                                 </td>
                                             @endforeach
                                             <td>
-                                                <form  action="{{route('admin-feedbacks.store')}}" method="POST">
+                                                <form action="{{route('admin-feedbacks.store')}}" method="POST">
                                                     @csrf
                                                     <input type="hidden" name="name" value="{{ $row['name'] }}"/>
                                                     <input type="hidden" name="email" value="{{ $row['email'] }}"/>
-                                                    @if($row['status'] === true)
+                                                    @if($row->user)
                                                         <td class="text-white bg-success d-flex justify-content-center">
                                                             Зарегистрирован
                                                         </td>
@@ -42,7 +44,7 @@
                                                 </form>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

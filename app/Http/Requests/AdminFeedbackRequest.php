@@ -22,8 +22,7 @@ class AdminFeedbackRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => "string",
-            "email" => "string",
+            "id" => "exists:feedbacks,id",
         ];
     }
 }

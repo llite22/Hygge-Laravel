@@ -7,6 +7,15 @@
             <div class="form-container">
                 <form action="{{route('feedback.store')}}" method="post" class="vanilla vanilla-form" novalidate="novalidate">
                     @csrf
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-field">
@@ -20,7 +29,7 @@
                         <div class="col-sm-6">
                             <div class="form-field">
                                 <label>
-                                    <input type="email" name="email" placeholder="Your e-mail">
+                                    <input type="email" name="email" placeholder="Your e-mail" required>
                                     <i class="icon-mail-alt"></i></label>
                             </div>
                             <!--/.form-field -->

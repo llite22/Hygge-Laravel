@@ -44,4 +44,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+    public function feedback() {
+        return $this->hasOne(Feedbacks::class, 'email', 'email');
+    }
+
 }

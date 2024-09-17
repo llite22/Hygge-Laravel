@@ -15,7 +15,7 @@ class AdminFeedbacksController extends Controller
 {
     public function index()
     {
-        $feedbacks = Feedbacks::all();
+        $feedbacks = Feedbacks::with('user')->get();
         $table = 'feedbacks';
         return view('pages.adminFeedback', compact('feedbacks', 'table'));
     }
@@ -30,21 +30,16 @@ class AdminFeedbacksController extends Controller
             'password' => Hash::make($password)
         ]);
 
-        $user->save();
-
-        Mail::raw('Your password is: ' . $password, function ($message) use ($user) {
+        Mail::send('emails', ['name' => $request->name, 'password' => $password], function ($message) use ($user) {
             $message->to($user->email)
-                ->subject('Your Account Password');
+                ->subject('Ваш пароль от аккаунта. Добро пожаловать!');
         });
 
 
         $feedback = Feedbacks::where('email', $request->email)->first();
-        if ($feedback) {
-            $feedback->status = true;
-            $feedback->save();
-        }
+        $feedback->status = true;
+        $feedback->save();
 
-        $feedbacks = Feedbacks::all();
-        return view('pages.adminFeedback', compact('feedbacks'));
+        return redirect()->back();
     }
 }
