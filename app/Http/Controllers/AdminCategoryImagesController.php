@@ -11,7 +11,7 @@ class AdminCategoryImagesController extends Controller
 {
     public function index()
     {
-        $category_images = Categories::with('images')->get();
+        $category_images = Categories::has('images')->with('images')->get();
         $table = 'category-images';
         return view('pages.adminCategoryImages', compact('category_images', 'table'));
     }
