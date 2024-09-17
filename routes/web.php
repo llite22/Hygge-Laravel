@@ -3,16 +3,27 @@
 use App\Http\Controllers\AdminCategoriesController;
 use App\Http\Controllers\AdminCategoryImagesController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminFeedbacksController;
 use App\Http\Controllers\AdminOrdersController;
 use App\Http\Controllers\AdminProductsController;
 use App\Http\Controllers\AdminSlidersController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MainController::class, 'index'])->name('main.index');
 
+Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+
+
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+
+Route::get('/admin/feedbacks', [AdminFeedbacksController::class, 'index'])->name('admin.feedbacks');
+Route::post('/admin/feedbacks', [AdminFeedbacksController::class, 'store'])->name('admin-feedbacks.store');
+
+
 
 Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users');
 Route::get('/admin/products', [AdminProductsController::class, 'index'])->name('admin.products');

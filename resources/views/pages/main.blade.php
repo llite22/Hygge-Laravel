@@ -1,6 +1,5 @@
 @extends('main.component.index')
 @section('content')
-    @include('main.component.navbar')
     @include('main.component.navbarSlider')
     @include('main.component.welcomeToHygge')
     @include('main.component.richLayouts')
@@ -10,5 +9,4 @@
     @include('main.component.aboutTheCompany')
     @include('main.component.processModel')
     @include('main.component.meetOurTeam')
-    @include('main.component.footer')
 @endsection

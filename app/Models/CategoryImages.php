@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 class CategoryImages extends Model
 {
     use HasFactory;
-    use Filterable;
 
     protected $table = 'category_images';
     protected $guarded = [];

@@ -14,8 +14,7 @@
             <div id="grid-container" class="cbp">
                 @foreach($categories as $category)
                     @foreach($category->images as $image)
-                    <div class="cbp-item category-{{$category->id}}"><a href="{{asset('ajax/project1.html')}}"
-                                                                        class="cbp-caption cbp-singlePageInline">
+                    <div class="cbp-item category-{{$category->id}}"><a href="{{asset('ajax/project1.html')}}" class="cbp-caption cbp-singlePageInline">
                             <div class="cbp-caption-defaultWrap"><img
                                     src="{{ asset(('storage/' . $image->image)) }}"
                                     alt="img"/>

@@ -30,7 +30,9 @@
     </div>
 </div>
 <div class="body-wrapper">
+    @include('main.component.navbar')
     @yield('content')
+    @include('main.component.footer')
     <div id="share-bar"></div>
 </div>
 

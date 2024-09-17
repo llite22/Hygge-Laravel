@@ -17,7 +17,11 @@
         <!-- /.navbar-header -->
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="current dropdown">
+                <li>
+                    <a href="{{ route('feedback.index') }}">Feedback
+                        <span class="caret"></span></a>
+                </li>
+                <li>
                     <a href="{{ route('admin.index') }}">Admin
                         <span class="caret"></span></a>
                 </li>
