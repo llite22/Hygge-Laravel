@@ -7,7 +7,10 @@ use App\Http\Controllers\AdminFeedbacksController;
 use App\Http\Controllers\AdminOrdersController;
 use App\Http\Controllers\AdminProductsController;
 use App\Http\Controllers\AdminSlidersController;
+use App\Http\Controllers\AdminUsersController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +21,10 @@ Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.in
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 
 
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+
+
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
 Route::get('/admin/feedbacks', [AdminFeedbacksController::class, 'index'])->name('admin.feedbacks');
@@ -25,8 +32,17 @@ Route::post('/admin/feedbacks', [AdminFeedbacksController::class, 'store'])->nam
 
 
 
-Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users');
+Route::get('/admin/users', [AdminUsersController::class, 'index'])->name('admin.users');
+Route::get('/admin/users', [AdminUsersController::class, 'index'])->name('admin.users');
+
 Route::get('/admin/products', [AdminProductsController::class, 'index'])->name('admin.products');
+Route::get('/admin/products/create', [AdminProductsController::class, 'create'])->name('admin-products.create');
+Route::post('/admin/products', [AdminProductsController::class, 'store'])->name('admin-products.store');
+Route::get('/admin/products/edit/{id}', [AdminProductsController::class, 'edit'])->name('admin-products.edit');
+Route::patch('/admin/products/{id}', [AdminProductsController::class, 'update'])->name('admin-products.update');
+Route::delete('/admin/products/{id}', [AdminProductsController::class, 'destroy'])->name('admin-products.destroy');
+
+
 Route::get('/admin/orders', [AdminOrdersController::class, 'index'])->name('admin.orders');
 
 Route::get('/admin/sliders', [AdminSlidersController::class, 'index'])->name('admin.sliders');

@@ -20,6 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin'
     ];
 
     /**
@@ -48,6 +49,10 @@ class User extends Authenticatable
 
     public function feedback() {
         return $this->hasOne(Feedbacks::class, 'email', 'email');
+    }
+
+    public function cart() {
+        return $this->hasMany(Carts::class, 'user_id', 'id');
     }
 
 }

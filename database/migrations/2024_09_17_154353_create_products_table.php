@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreignId('category_id')->constrained('category_products')->onDelete('cascade');
             $table->string('name');
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2);
@@ -21,7 +21,6 @@ return new class extends Migration
             $table->boolean('available')->default(false);
             $table->unsignedBigInteger('quantity')->default(0);
             $table->date('delivery_date')->nullable();
-            $table->foreign('category_id', 'products_category_fk')->on('category_products')->references('id')->onDelete('cascade');;
             $table->timestamps();
         });
     }

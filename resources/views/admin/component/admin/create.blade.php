@@ -51,21 +51,6 @@
                             </label>
                             <div class="custom-file-container__image-preview"></div>
                         </div>
-                        {{--                        <div class="form-row">--}}
-                        {{--                            <div class="col-md-12 mb-4">--}}
-                        {{--                                <label for="name">Изображение</label>--}}
-                        {{--                                <input type="text" class="form-control" id="image" name="image"--}}
-                        {{--                                       placeholder="Изображение"--}}
-                        {{--                                       value=""--}}
-                        {{--                                       required>--}}
-                        {{--                                <div class="valid-feedback">--}}
-                        {{--                                    Looks good!--}}
-                        {{--                                </div>--}}
-                        {{--                                <div class="invalid-feedback">--}}
-                        {{--                                    Please fill the name--}}
-                        {{--                                </div>--}}
-                        {{--                            </div>--}}
-                        {{--                        </div>--}}
                     @elseif($table == 'category-images')
                         <div class="custom-file-container" data-upload-id="myFirstImage">
                             <label>Upload (Single File) <a href="javascript:void(0)"

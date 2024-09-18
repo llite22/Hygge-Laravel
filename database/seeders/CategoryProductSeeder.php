@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 
 class CategoryProductSeeder extends Seeder
 {
@@ -13,11 +14,11 @@ class CategoryProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $categories = ['Электроника', 'Одежда', 'Книги', 'Спорт'];
+        $faker = Faker::create();
 
-        foreach ($categories as $category) {
+        for ($i = 0; $i < 5; $i++) {
             DB::table('category_products')->insert([
-                'name' => $category,
+                'name' => $faker->unique()->word(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

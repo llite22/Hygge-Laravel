@@ -1,4 +1,5 @@
 @extends('admin.component.index')
 @section('content')
-   @include('admin.component.product.table')
+    @include('admin.component.user.table')
 @endsection
+

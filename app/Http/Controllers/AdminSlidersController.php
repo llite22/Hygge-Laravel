@@ -26,19 +26,6 @@ class AdminSlidersController extends Controller
 
     public function store(SlidersRequest $request)
     {
-//        $request->validated();
-//        if ($request->hasFile('image')) {
-//            $img = $request->file('image');
-//            $fileName = time() . $img->getClientOriginalName();
-//            Storage::disk('public')->put('images/' . $fileName, file_get_contents($img));
-//            $data['image'] = $fileName;
-//        } else {
-//            $data['image'] = null;
-//        }
-//        $data = $request->validated();
-//        Sliders::create($data);
-
-
         if($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
             $upload = new Sliders();
@@ -78,6 +65,9 @@ class AdminSlidersController extends Controller
     {
         $id = $request->segment(4);
         $slider = Sliders::findOrFail($id);
+        if (Storage::disk('public')->exists($slider->image)) {
+            Storage::disk('public')->delete($slider->image);
+        }
         $slider->delete();
         return redirect()->route('admin.sliders');
     }

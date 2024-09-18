@@ -25,6 +25,14 @@
                     <a href="{{ route('admin.index') }}">Admin
                         <span class="caret"></span></a>
                 </li>
+                <li>
+                    <a href="{{ route('products.index') }}">Products
+                        <span class="caret"></span></a>
+                </li>
+                <li>
+                    <a href="{{ route('cart.index') }}">Cart
+                        <span class="caret"></span></a>
+                </li>
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="index2.html">Home Layout 2</a></li>
