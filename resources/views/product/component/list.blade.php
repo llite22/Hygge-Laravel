@@ -13,6 +13,18 @@
                     <div data-filter=".category-{{$product->id}}" class="cbp-filter-item"> {{$product->name}}</div>
                 @endforeach
             </div>
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <div id="grid-container" class="cbp">
                 @foreach($products as $product)
                     @foreach($product->products as $productCategory)
@@ -26,11 +38,22 @@
                                     <div class="cbp-l-caption-alignCenter">
                                         <div class="cbp-l-caption-body">
                                             <div class="cbp-l-caption-title">Product-{{$productCategory->name}}</div>
-                                            <div class="cbp-l-caption-desc">Print, Motion</div>
+                                            <div class="cbp-l-caption-desc">{{$productCategory->description}}</div>
+                                            <div class="cbp-l-caption-desc">{{$productCategory->price}} ₽</div>
                                         </div>
                                     </div>
                                 </div>
                             </a>
+                            <form action="{{ route('cart.add') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $productCategory->id }}">
+                                <input type="number" name="quantity" value="1" min="1" class="form-control mb-2"
+                                       style="width: 80px;">
+                                <button type="submit" class="btn btn-primary"
+                                        @if (!$productCategory->available) disabled @endif>
+                                    Добавить в корзину
+                                </button>
+                            </form>
                         </div>
                     @endforeach
                 @endforeach

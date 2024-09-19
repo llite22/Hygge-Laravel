@@ -49,7 +49,6 @@ class AdminCategoryImagesController extends Controller
         return view('admin.component.admin.edit', compact('categories_images', 'id', 'table', 'categories'));
     }
 
-
     public function update(CategoryImagesRequest $request)
     {
         $id = $request->segment(4);
@@ -59,7 +58,6 @@ class AdminCategoryImagesController extends Controller
         return redirect()->route('admin.category-images');
 
     }
-
 
     public function destroy(CategoryImagesRequest $request)
     {

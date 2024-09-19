@@ -1,14 +1,27 @@
+@if (Auth::check() && Auth::user()->is_admin)
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+@endif
 <nav class="navbar navbar-default default">
     <div class="container">
         <div class="navbar-header">
             <div class="basic-wrapper"><a class="btn responsive-menu" data-toggle="collapse"
                                           data-target=".navbar-collapse"><i></i></a>
                 <div class="navbar-brand"><a href="#"><img src="#"
-                                                                    srcset="images/logo.png 1x, images/logo@2x.png 2x"
-                                                                    class="logo-light" alt=""/><img src="#"
-                                                                                                    srcset="images/logo-dark.png 1x, images/logo-dark@2x.png 2x"
-                                                                                                    class="logo-dark"
-                                                                                                    alt=""/></a>
+                                                           srcset="images/logo.png 1x, images/logo@2x.png 2x"
+                                                           class="logo-light" alt=""/><img src="#"
+                                                                                           srcset="images/logo-dark.png 1x, images/logo-dark@2x.png 2x"
+                                                                                           class="logo-dark"
+                                                                                           alt=""/></a>
                 </div>
                 <!-- /.navbar-brand -->
             </div>
@@ -21,10 +34,12 @@
                     <a href="{{ route('feedback.index') }}">Feedback
                         <span class="caret"></span></a>
                 </li>
-                <li>
-                    <a href="{{ route('admin.index') }}">Admin
-                        <span class="caret"></span></a>
-                </li>
+                @if (auth()->check() && auth()->user()->is_admin)
+                    <li>
+                        <a href="{{ route('admin.index') }}">Admin
+                            <span class="caret"></span></a>
+                    </li>
+                @endif
                 <li>
                     <a href="{{ route('products.index') }}">Products
                         <span class="caret"></span></a>
@@ -33,16 +48,16 @@
                     <a href="{{ route('cart.index') }}">Cart
                         <span class="caret"></span></a>
                 </li>
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="index2.html">Home Layout 2</a></li>
-                        <li><a href="index3.html">Home Layout 3</a></li>
-                        <li><a href="index4.html">Home Layout 4</a></li>
-                        <li><a href="index5.html">Home Layout 5</a></li>
-                        <li><a href="index-all.html">Home Layout All</a></li>
-                        <li><a href="animation.html">Scroll Animation</a></li>
-                        <li><a href="onepage.html">Onepage Layout</a></li>
-                    </ul>
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="index2.html">Home Layout 2</a></li>
+                    <li><a href="index3.html">Home Layout 3</a></li>
+                    <li><a href="index4.html">Home Layout 4</a></li>
+                    <li><a href="index5.html">Home Layout 5</a></li>
+                    <li><a href="index-all.html">Home Layout All</a></li>
+                    <li><a href="animation.html">Scroll Animation</a></li>
+                    <li><a href="onepage.html">Onepage Layout</a></li>
+                </ul>
                 </li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle js-activated" data-toggle="dropdown">Sliders
                         <span class="caret"></span></a>

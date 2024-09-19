@@ -2,7 +2,7 @@
     <div class="layout-px-spacing">
         <div class="my-5 w-100">
             <div class="col-lg-11 d-flex justify-content-end">
-                <a href="{{route('admin-products.create')}}"
+                <a href="{{route('admin-category-products.create')}}"
                    class="btn btn-primary mb-2">Добавить</a>
             </div>
             <div class="row layout-spacing d-flex justify-content-center">
@@ -15,61 +15,22 @@
                                     <tr>
                                         <th>Record ID</th>
                                         <th>name category</th>
-                                        <th>name</th>
-                                        <th>description</th>
-                                        <th>price</th>
-                                        <th>image</th>
-                                        <th>available</th>
-                                        <th>quantity</th>
-                                        <th>delivery_date</th>
                                         <th>Update</th>
                                         <th>Delete</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($category_products as $category)
-                                        @foreach($category->products as $product)
                                             <tr>
                                                 <td>
-                                                    {{$product->id}}
+                                                    {{$category->id}}
                                                 </td>
                                                 <td>
                                                     {{$category->name}}
 
                                                 </td>
-                                                <td>
-                                                    {{$product->name}}
-                                                </td>
-                                                <td>
-                                                    {{$product->description}}
-                                                </td>
-                                                <td>
-                                                    {{$product->price}} ₽
-                                                </td>
-                                                <td>
-                                                <span>
-                                                    <img
-                                                        src="{{ asset('storage/' . $product->image) }}"
-                                                        class="profile-img"
-                                                        alt="img"
-                                                    >
-                                                </span>
-                                                </td>
-                                                <td>
-                                                    @if($product->available === true)
-                                                        Доступен
-                                                    @else
-                                                        Недоступен
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    {{$product->quantity}}
-                                                </td>
-                                                <td>
-                                                    {{$product->delivery_date}}
-                                                </td>
                                                 <td><a
-                                                        href="{{route('admin-products.edit', ['id' => $product->id])}}"
+                                                        href="{{route('admin-category-products.edit', ['id' => $category->id])}}"
                                                         class="bs-tooltip"
                                                         data-toggle="tooltip"
                                                         data-placement="top" title=""
@@ -87,7 +48,7 @@
                                                     </a></td>
                                                 <td>
                                                     <form
-                                                        action="{{route('admin-products.destroy', ['id' => $product->id])}}"
+                                                        action="{{route('admin-category-products.destroy', ['id' => $category->id])}}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -107,7 +68,6 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>

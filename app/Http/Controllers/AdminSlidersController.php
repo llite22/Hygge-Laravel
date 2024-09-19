@@ -60,7 +60,6 @@ class AdminSlidersController extends Controller
 
     }
 
-
     public function destroy(SlidersRequest $request)
     {
         $id = $request->segment(4);

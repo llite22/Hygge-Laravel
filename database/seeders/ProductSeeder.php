@@ -16,11 +16,9 @@ class ProductSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $categoryIds = DB::table('category_products')->pluck('id')->toArray();
-
         for ($i = 0; $i < 5; $i++) {
             DB::table('products')->insert([
-                'category_id' => $faker->randomElement($categoryIds),
+                'category_id' => $i + 1,
                 'name' => $faker->word(),
                 'description' => $faker->paragraph(),
                 'price' => $faker->randomFloat(2, 10, 20000),

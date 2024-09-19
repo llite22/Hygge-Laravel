@@ -27,8 +27,6 @@ class AdminProductsController extends Controller
     {
         $data = $request->all();
 
-        $data['available'] = filter_var($data['available'], FILTER_VALIDATE_BOOLEAN);
-
         if ($request->hasFile('image')) {
             $img = $request->file('image');
             $fileName = time() . '_' . $img->getClientOriginalName();

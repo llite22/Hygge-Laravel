@@ -35,7 +35,6 @@ class AdminFeedbacksController extends Controller
                 ->subject('Ваш пароль от аккаунта. Добро пожаловать!');
         });
 
-
         $feedback = Feedbacks::where('email', $request->email)->first();
         $feedback->status = true;
         $feedback->save();
