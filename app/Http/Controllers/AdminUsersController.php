@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\User\UserIdRequest;
+use App\Http\Requests\User\UserCreateRequest;
+use App\Http\Requests\User\UserUpdateRequest;
 use App\Models\User;
 
 class AdminUsersController extends Controller
@@ -13,32 +15,24 @@ class AdminUsersController extends Controller
         return view('pages.adminUsers', compact('users'));
     }
 
-    public function edit(UserRequest $request)
+    public function edit($id)
     {
-        $id = $request->segment(4);
         $user = User::findOrFail($id);
-        if (!ctype_digit($id)) {
-            abort(404);
-        }
-        return view('admin.component.user.edit', compact('user', 'id'));
+        return view('admin.component.user.edit', compact('user'));
     }
 
 
-    public function update(UserRequest $request)
+    public function update(UserUpdateRequest $request)
     {
-        $id = $request->segment(3);
-        $data = $request->all();
-        $user = User::findOrFail($id);
-        $user->update($data);
-        return redirect()->route('admin.users');
+        $user = User::findOrFail($request->id);
+        $user->update($request->all());
+        return redirect()->route('admin.users')->with('success', 'Пользователь обновлен');
 
     }
 
-    public function destroy(UserRequest $request)
+    public function destroy($id)
     {
-        $id = $request->segment(3);
-        $user = User::findOrFail($id);
-        $user->delete();
+        User::destroy($id);
         return redirect()->back();
     }
 }

@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AdminFeedbackRequest;
+use App\Http\Requests\Feedback\AdminFeedbackRequest;
 use App\Models\Feedbacks;
-
-
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+
 
 class AdminFeedbacksController extends Controller
 {

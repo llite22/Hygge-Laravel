@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\FeedbackRequest;
+use App\Http\Requests\Feedback\FeedbackRequest;
 use App\Models\Feedbacks;
-use Illuminate\Support\Facades\Log;
 
 class FeedbackController extends Controller
 {
@@ -15,8 +14,7 @@ class FeedbackController extends Controller
 
     public function store(FeedbackRequest $request)
     {
-        $data = $request->validated();
-        Feedbacks::create($data);
+        Feedbacks::create($request->all());
         return redirect()->back();
     }
 }

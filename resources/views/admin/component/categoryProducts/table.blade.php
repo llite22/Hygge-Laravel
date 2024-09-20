@@ -30,7 +30,7 @@
 
                                                 </td>
                                                 <td><a
-                                                        href="{{route('admin-category-products.edit', ['id' => $category->id])}}"
+                                                        href="{{route('admin-category-products.edit', $category->id)}}"
                                                         class="bs-tooltip"
                                                         data-toggle="tooltip"
                                                         data-placement="top" title=""
@@ -48,7 +48,7 @@
                                                     </a></td>
                                                 <td>
                                                     <form
-                                                        action="{{route('admin-category-products.destroy', ['id' => $category->id])}}"
+                                                        action="{{route('admin-category-products.destroy', $category->id)}}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')

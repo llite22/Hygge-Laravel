@@ -4,7 +4,7 @@
         <div class="layout-px-spacing">
             <div class="d-flex justify-content-center">
                 <form class="simple-example col-lg-10"
-                      action="{{route('admin-category-products.update', ['id' => $id])}}" method="POST" novalidate
+                      action="{{route('admin-category-products.update', $category_product->id)}}" method="POST" novalidate
                       enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')

@@ -69,7 +69,7 @@
                                                     {{$product->delivery_date}}
                                                 </td>
                                                 <td><a
-                                                        href="{{route('admin-products.edit', ['id' => $product->id])}}"
+                                                        href="{{route('admin-products.edit', $product->id)}}"
                                                         class="bs-tooltip"
                                                         data-toggle="tooltip"
                                                         data-placement="top" title=""
@@ -87,7 +87,7 @@
                                                     </a></td>
                                                 <td>
                                                     <form
-                                                        action="{{route('admin-products.destroy', ['id' => $product->id])}}"
+                                                        action="{{route('admin-products.destroy', $product->id)}}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')

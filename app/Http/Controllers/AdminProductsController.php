@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AdminProductRequest;
+use App\Http\Requests\Product\AdminProductRequest;
 use App\Models\CategoryProducts;
 use App\Models\Products;
 use Illuminate\Support\Facades\Storage;
@@ -38,23 +38,18 @@ class AdminProductsController extends Controller
         return redirect()->route('admin.products');
     }
 
-    public function edit(AdminProductRequest $request)
+    public function edit($id)
     {
         $category_products = CategoryProducts::all();
-        $id = $request->segment(4);
         $product = Products::findOrFail($id);
-        if (!ctype_digit($id)) {
-            abort(404);
-        }
-        return view('admin.component.product.edit', compact('category_products', 'product', 'id'));
+        return view('admin.component.product.edit', compact('category_products', 'product'));
     }
 
 
     public function update(AdminProductRequest $request)
     {
-        $id = $request->segment(3);
         $data = $request->all();
-        $product = Products::findOrFail($id);
+        $product = Products::findOrFail($request->id);
         if ($request->hasFile('image')) {
             $img = $request->file('image');
             $fileName = time() . '_' . $img->getClientOriginalName();
@@ -67,14 +62,13 @@ class AdminProductsController extends Controller
     }
 
 
-    public function destroy(AdminProductRequest $request)
+    public function destroy($id)
     {
-        $id = $request->segment(3);
         $product = Products::find($id);
         if (Storage::disk('public')->exists($product->image)) {
             Storage::disk('public')->delete($product->image);
         }
-        $product->delete();
+        Products::destroy($id);
         return redirect()->back();
     }
 }

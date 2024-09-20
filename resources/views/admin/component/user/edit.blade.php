@@ -1,13 +1,27 @@
 @extends('admin.component.index')
 @section('content')
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div id="content" class="main-content">
         <div class="layout-px-spacing">
             <div class="d-flex justify-content-center">
                 <form class="simple-example col-lg-10"
-                      action="{{route('admin-users.update', ['id' => $id])}}" method="POST" novalidate
+                      action="{{route('admin-users.update', $user->id)}}" method="POST" novalidate
                       enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
+                    <input value="{{$user->id}}" type="hidden" class="form-control" name="id"
+                           placeholder="Имя пользователя"
+                           required>
                     <div class="form-row">
                         <div class="col-md-12 mb-4">
                             <label for="name">Имя пользователя</label>

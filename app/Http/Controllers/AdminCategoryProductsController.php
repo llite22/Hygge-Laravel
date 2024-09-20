@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AdminCategoryProductRequest;
+use App\Http\Requests\CategoryProduct\AdminCategoryProductRequest;
 use App\Models\CategoryProducts;
 
 
@@ -22,36 +22,25 @@ class AdminCategoryProductsController extends Controller
 
     public function store(AdminCategoryProductRequest $request)
     {
-        $data = $request->all();
-        CategoryProducts::create($data);
+        CategoryProducts::create($request->all());
         return redirect()->route('admin.category-products');
     }
 
-    public function edit(AdminCategoryProductRequest $request)
+    public function edit(CategoryProducts $category_product)
     {
-        $id = $request->segment(4);
-        $category_product = CategoryProducts::findOrFail($id);
-        if (!ctype_digit($id)) {
-            abort(404);
-        }
-        return view('admin.component.categoryProducts.edit', compact('category_product', 'id'));
+        return view('admin.component.categoryProducts.edit', compact('category_product'));
     }
 
-    public function update(AdminCategoryProductRequest $request)
+    public function update(CategoryProducts $category_product)
     {
-        $id = $request->segment(3);
-        $data = $request->all();
-        $category_product = CategoryProducts::findOrFail($id);
-        $category_product->update($data);
+        $category_product->update(request()->all());
         return redirect()->route('admin.category-products');
-
     }
 
-    public function destroy(AdminCategoryProductRequest $request)
+    public function destroy($category_product)
     {
-        $id = $request->segment(3);
-        $category_product = CategoryProducts::find($id);
-        $category_product->delete();
+
+        CategoryProducts::destroy($category_product);
         return redirect()->back();
     }
 }

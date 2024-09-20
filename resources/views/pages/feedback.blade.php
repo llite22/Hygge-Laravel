@@ -1,4 +1,4 @@
 @extends('main.component.index')
 @section('content')
-    @include('feedback.component.create')
+    @include('admin.component.feedback.component.create')
 @endsection

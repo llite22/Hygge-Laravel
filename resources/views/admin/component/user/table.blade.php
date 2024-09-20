@@ -1,6 +1,17 @@
 <div id="content" class="main-content">
     <div class="layout-px-spacing">
         <div class="my-5 w-100">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="row layout-spacing d-flex justify-content-center">
                 <div class="col-lg-11">
                     <div class="statbox widget box box-shadow">
@@ -38,7 +49,7 @@
                                                 @endif
                                             </td>
                                             <td><a
-                                                    href="{{route('admin-users.edit', ['id' => $user->id])}}"
+                                                    href="{{route('admin-users.edit', $user->id)}}"
                                                     class="bs-tooltip"
                                                     data-toggle="tooltip"
                                                     data-placement="top" title=""
@@ -56,7 +67,7 @@
                                                 </a></td>
                                             <td>
                                                 <form
-                                                    action="{{route('admin-users.destroy', ['id' => $user->id])}}"
+                                                    action="{{route('admin-users.destroy', $user->id)}}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
