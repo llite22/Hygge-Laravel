@@ -17,9 +17,8 @@ class AdminSlidersController extends Controller
         return view('pages.adminSliders', compact('sliders', 'table'));
     }
 
-    public function create(SlidersRequest $request)
+    public function create($table)
     {
-        $table = $request->segment(2);
         return view('admin.component.admin.create', compact('table'));
     }
 
@@ -37,13 +36,8 @@ class AdminSlidersController extends Controller
     }
 
 
-    public function edit(SlidersRequest $request)
+    public function edit($table, $id)
     {
-        $table = $request->segment(2);
-        $id = $request->segment(5);
-        if (!ctype_digit($id)) {
-            abort(404);
-        }
         $slider = Sliders::find($id);
         return view('admin.component.admin.edit', compact('slider', 'id', 'table'));
     }
@@ -51,23 +45,31 @@ class AdminSlidersController extends Controller
 
     public function update(SlidersRequest $request)
     {
-        $id = $request->segment(4);
-        $slider = Sliders::findOrFail($id);
+        $data = $request->all();
+        $slider = Sliders::findOrFail($request->id);
+        if($request->hasFile('image')) {
+            if (Storage::disk('public')->exists($slider->image)) {
+                Storage::disk('public')->delete($slider->image);
+            }
+            $imagePath = $request->file('image')->store('images', 'public');
+            $upload = new Sliders();
+            $upload->text = $request->text;
+            $upload->image = $imagePath;
+            $upload->save();
+        }
 
-        $data = $request->validated();
         $slider->update($data);
         return redirect()->route('admin.sliders');
 
     }
 
-    public function destroy(SlidersRequest $request)
+    public function destroy($table = null, $id)
     {
-        $id = $request->segment(4);
         $slider = Sliders::findOrFail($id);
         if (Storage::disk('public')->exists($slider->image)) {
             Storage::disk('public')->delete($slider->image);
         }
-        $slider->delete();
+        Sliders::destroy($id);
         return redirect()->route('admin.sliders');
     }
 }

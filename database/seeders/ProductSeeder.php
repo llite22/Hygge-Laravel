@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Products;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -14,21 +15,6 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = Faker::create();
-
-        for ($i = 0; $i < 5; $i++) {
-            DB::table('products')->insert([
-                'category_id' => $i + 1,
-                'name' => $faker->word(),
-                'description' => $faker->paragraph(),
-                'price' => $faker->randomFloat(2, 10, 20000),
-                'image' => $faker->imageUrl(640, 480, 'product', true, 'Faker'),
-                'quantity' => $faker->numberBetween(1, 500),
-                'available' => $faker->boolean(),
-                'delivery_date' => $faker->dateTimeBetween('now', '+30 days'),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+        Products::factory()->count(5)->create();
     }
 }

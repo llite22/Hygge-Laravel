@@ -22,7 +22,7 @@ class SlidersRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'text' => 'string',
+            'text' => 'required|min:1',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }

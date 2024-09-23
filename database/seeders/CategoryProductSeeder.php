@@ -2,26 +2,24 @@
 
 namespace Database\Seeders;
 
+use App\Models\CategoryProducts;
+use App\Models\Products;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
+use Illuminate\Support\Str;
 
 class CategoryProductSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
+
     public function run(): void
     {
-        $faker = Faker::create();
-
-        for ($i = 0; $i < 5; $i++) {
-            DB::table('category_products')->insert([
-                'name' => $faker->unique()->word(),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+        CategoryProducts::factory()
+            ->count(5)->hasProducts(5)
+            ->create();
     }
 }

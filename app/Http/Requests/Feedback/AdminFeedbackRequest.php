@@ -23,6 +23,9 @@ class AdminFeedbackRequest extends FormRequest
     {
         return [
             "id" => "required:exists:feedbacks,id",
+            "name" => "required:min:2",
+            "email" => "required|email",
+            "message" => "required|min:2"
         ];
     }
 }

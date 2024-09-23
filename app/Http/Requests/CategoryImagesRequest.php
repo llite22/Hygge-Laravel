@@ -23,7 +23,7 @@ class CategoryImagesRequest extends FormRequest
     {
         return [
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'category_id' => 'exists:categories,id',
+            'category_id' => 'required|exists:categories,id',
         ];
     }
 }

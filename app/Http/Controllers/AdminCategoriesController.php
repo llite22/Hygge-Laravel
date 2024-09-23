@@ -14,27 +14,20 @@ class AdminCategoriesController extends Controller
         return view('pages.adminCategories', compact('categories', 'table'));
     }
 
-    public function create(CategoriesRequest $request)
+    public function create($table)
     {
-        $table = $request->segment(2);
         return view('admin.component.admin.create', compact('table'));
     }
 
 
     public function store(CategoriesRequest $request)
     {
-        $data = $request->validated();
-        Categories::create($data);
+        Categories::create($request->all());
         return redirect()->route('admin.categories');
     }
 
-    public function edit(CategoriesRequest $request)
+    public function edit($table = null, $id)
     {
-        $table = $request->segment(2);
-        $id = $request->segment(5);
-        if (!ctype_digit($id)) {
-            abort(404);
-        }
         $categories = Categories::find($id);
         return view('admin.component.admin.edit', compact('categories', 'id', 'table'));
     }
@@ -42,22 +35,16 @@ class AdminCategoriesController extends Controller
 
     public function update(CategoriesRequest $request)
     {
-        $id = $request->segment(4);
-        $category = Categories::findOrFail($id);
-
-        $data = $request->validated();
-        $category->update($data);
+        $category = Categories::findOrFail($request->id);
+        $category->update($request->all());
         return redirect()->route('admin.categories');
 
     }
 
 
-    public function destroy(CategoriesRequest $request)
+    public function destroy($table = null, $id)
     {
-        $id = $request->segment(4);
-        $category = Categories::findOrFail($id);
-        $category->delete();
+        Categories::destroy($id);
         return redirect()->route('admin.categories');
     }
-
 }

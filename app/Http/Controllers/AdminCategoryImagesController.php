@@ -16,10 +16,9 @@ class AdminCategoryImagesController extends Controller
         return view('pages.adminCategoryImages', compact('category_images', 'table'));
     }
 
-    public function create(CategoryImagesRequest $request)
+    public function create($table)
     {
         $categories = Categories::all();
-        $table = $request->segment(2);
         return view('admin.component.admin.create', compact('table', 'categories'));
     }
 
@@ -37,13 +36,8 @@ class AdminCategoryImagesController extends Controller
         return redirect()->route('admin.category-images');
     }
 
-    public function edit(CategoryImagesRequest $request)
+    public function edit($table, $id)
     {
-        $table = $request->segment(2);
-        $id = $request->segment(5);
-        if (!ctype_digit($id)) {
-            abort(404);
-        }
         $categories = Categories::all();
         $categories_images = CategoryImages::find($id);
         return view('admin.component.admin.edit', compact('categories_images', 'id', 'table', 'categories'));
@@ -51,22 +45,19 @@ class AdminCategoryImagesController extends Controller
 
     public function update(CategoryImagesRequest $request)
     {
-        $id = $request->segment(4);
-        $category_image = CategoryImages::findOrFail($id);
-        $data = $request->validated();
-        $category_image->update($data);
+        $category_image = CategoryImages::findOrFail($request->id);
+        $category_image->update($request->all());
         return redirect()->route('admin.category-images');
 
     }
 
-    public function destroy(CategoryImagesRequest $request)
+    public function destroy($table = null, $id)
     {
-        $id = $request->segment(4);
         $category_images = CategoryImages::findOrFail($id);
         if (Storage::disk('public')->exists($category_images->image)) {
             Storage::disk('public')->delete($category_images->image);
         }
-        $category_images->delete();
+        CategoryImages::destroy($id);
         return redirect()->route('admin.category-images');
     }
 
