@@ -1,10 +1,6 @@
 <div id="content" class="main-content">
     <div class="layout-px-spacing">
         <div class="my-5 w-100">
-            <div class="col-lg-11 d-flex justify-content-end">
-                <a href="{{route('admin-products.create')}}"
-                   class="btn btn-primary mb-2">Добавить</a>
-            </div>
             <div class="row layout-spacing d-flex justify-content-center">
                 <div class="col-lg-11">
                     <div class="statbox widget box box-shadow">
@@ -46,21 +42,8 @@
                                                     <p>Цена: {{ $item->product->price }}</p>
                                                 @endforeach
                                             </td>
-                                            {{--                                            <td>--}}
-                                            {{--                                                <span>--}}
-                                            {{--                                                    <img--}}
-                                            {{--                                                        src="{{ asset('storage/' . $product->image) }}"--}}
-                                            {{--                                                        class="profile-img" alt="img"--}}
-                                            {{--                                                    ></span>--}}
-                                            {{--                                            </td>--}}
-                                            {{--                                            <td>--}}
-                                            {{--                                                {{$product->quantity}}--}}
-                                            {{--                                            </td>--}}
-                                            {{--                                            <td>--}}
-                                            {{--                                                {{$product->delivery_date}}--}}
-                                            {{--                                            </td>--}}
                                             <td><a
-                                                    {{--                                                    href="{{route('admin-products.edit', ['id' => $product->id])}}"--}}
+                                                    href="{{route('admin-orders.edit', $order_item->id)}}"
                                                     class="bs-tooltip"
                                                     data-toggle="tooltip"
                                                     data-placement="top" title=""
@@ -78,7 +61,7 @@
                                                 </a></td>
                                             <td>
                                                 <form
-                                                    {{--                                                    action="{{route('admin-products.destroy', ['id' => $product->id])}}"--}}
+                                                    action="{{route('admin-orders.destroy',  $order_item->id)}}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')

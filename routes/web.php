@@ -4,16 +4,16 @@ use App\Http\Controllers\AdminCategoriesController;
 use App\Http\Controllers\AdminCategoryImagesController;
 use App\Http\Controllers\AdminCategoryProductsController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdminFeedbacksController;
-use App\Http\Controllers\AdminOrdersController;
-use App\Http\Controllers\AdminProductsController;
 use App\Http\Controllers\AdminSlidersController;
-use App\Http\Controllers\AdminUsersController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\Cart\CartController;
+use App\Http\Controllers\Feedback\AdminFeedbacksController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\Order\AdminOrdersController;
+use App\Http\Controllers\Product\AdminProductsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\MainController;
+use App\Http\Controllers\User\AdminUsersController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +62,9 @@ Route::middleware([AdminMiddleware::class])->group(function () {
 
     // Админ Заказы
     Route::get('/admin/orders', [AdminOrdersController::class, 'index'])->name('admin.orders');
+    Route::get('/admin/orders/edit/{id}', [AdminOrdersController::class, 'edit'])->name('admin-orders.edit');
+    Route::patch('/admin/orders/{id}', [AdminOrdersController::class, 'update'])->name('admin-orders.update');
+    Route::delete('/admin/orders/{id}', [AdminOrdersController::class, 'destroy'])->name('admin-orders.destroy');
 
     // Админ Слайдеры
     Route::get('/admin/sliders', [AdminSlidersController::class, 'index'])->name('admin.sliders');

@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
-use App\Http\Requests\User\UserIdRequest;
-use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Models\User;
 
-class AdminUsersController extends Controller
+class AdminUsersController extends BaseController
 {
     public function index()
     {
@@ -24,8 +22,7 @@ class AdminUsersController extends Controller
 
     public function update(UserUpdateRequest $request)
     {
-        $user = User::findOrFail($request->id);
-        $user->update($request->all());
+        $this->service->update($request->all());
         return redirect()->route('admin.users')->with('success', 'Пользователь обновлен');
 
     }

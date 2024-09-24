@@ -1,19 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Cart;
 
 use App\Http\Requests\Cart\CartCreateRequest;
 use App\Http\Requests\Cart\CartUpdateRequest;
 use App\Models\CartItems;
-use App\Models\Carts;
-use App\Models\OrderItems;
-use App\Models\Orders;
-use App\Models\Products;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
-class CartController extends Controller
+class CartController extends BaseController
 {
     public function index()
     {
@@ -47,19 +41,12 @@ class CartController extends Controller
 //            return redirect()->back()->with('error', 'Доступно только ' . $product->quantity . ' единиц товара.');
 //        }
 
-        $cartItem = auth()->user()->cart->cartItems()->firstOrCreate([
-            'product_id' => $request->product_id,
-        ]);
-        $cartItem->quantity += $request->quantity;
-        $cartItem->save();
-
+        $this->service->addToCart($request->all());
         return redirect()->back()->with('success', 'Товар успешно добавлен в корзину.');
     }
 
     public function update(CartUpdateRequest $request, $cartItemId)
     {
-        CartItems::where('id', $cartItemId)->update(['quantity' => $request->quantity]);
-
 //        $product = Products::find($cartItem->product_id);
 
 //        // Проверяем доступное количество товара
@@ -77,33 +64,13 @@ class CartController extends Controller
 //        $cart->total_price = $totalPrice;
 //        $cart->save();
 
+        CartItems::where('id', $cartItemId)->update(['quantity' => $request->quantity]);
         return redirect()->back()->with('success', 'Количество товара обновлено.');
     }
 
     public function store($id)
     {
-        $cart = Carts::find($id);
-        $order = Orders::create([
-            'user_id' => auth()->id(),
-            'status' => 'В ожидании',
-            'total_price' => $cart->calculateTotalPrice(),
-        ]);
-
-        $cart->cartItems->each(function ($item) use ($order) {
-            OrderItems::create([
-                'order_id' => $order->id,
-                'product_id' => $item->product_id,
-                'quantity' => $item->quantity,
-            ]);
-
-            $product = Products::find($item->product_id);
-            $product->quantity -= $item->quantity;
-            $product->available = $product->quantity > 0;
-            $product->save();
-        });
-
-        CartItems::where('cart_id', $cart->id)->delete();
-
+        $this->service->store($id);
         return redirect()->back()->with('success', 'Заказ оформлен.');
     }
 }

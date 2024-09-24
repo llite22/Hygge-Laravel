@@ -72,10 +72,12 @@
                         <!-- Кнопка оформления заказа -->
                         <div class="row">
                             <div class="col-md-12 text-right">
-                                <form action="{{ route('cart.order-placement', $cart->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-primary">Оформить заказ</button>
-                                </form>
+                                @if($cart->cartItems->isNotEmpty())
+                                    <form action="{{ route('cart.order-placement', $cart->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary">Оформить заказ</button>
+                                    </form>
+                                @endif
                             </div>
                         </div>
                 </div>
