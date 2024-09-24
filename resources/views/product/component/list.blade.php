@@ -13,15 +13,13 @@
                     <div data-filter=".category-{{$product->id}}" class="cbp-filter-item"> {{$product->name}}</div>
                 @endforeach
             </div>
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if (session('error'))
+            @if ($errors->any())
                 <div class="alert alert-danger">
-                    {{ session('error') }}
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
 
@@ -46,6 +44,7 @@
                             </a>
                             <form action="{{ route('cart.add') }}" method="POST">
                                 @csrf
+                                <input type="hidden" name="cart_id" value="{{ $productCategory->id }}">
                                 <input type="hidden" name="product_id" value="{{ $productCategory->id }}">
                                 <input type="number" name="quantity" value="1" min="1" class="form-control mb-2"
                                        style="width: 80px;">

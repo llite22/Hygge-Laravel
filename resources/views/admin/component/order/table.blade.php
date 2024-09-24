@@ -18,8 +18,6 @@
                                         <th>status</th>
                                         <th>total_price</th>
                                         <th>product</th>
-                                        <th>price</th>
-                                        <th>delivery_date</th>
                                         <th>Update</th>
                                         <th>Delete</th>
                                     </tr>

@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CartRequest;
+use App\Http\Requests\Cart\CartCreateRequest;
+use App\Http\Requests\Cart\CartUpdateRequest;
 use App\Models\CartItems;
 use App\Models\Carts;
+use App\Models\OrderItems;
+use App\Models\Orders;
 use App\Models\Products;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -13,95 +17,93 @@ class CartController extends Controller
 {
     public function index()
     {
-        $carts = Carts::where('user_id', Auth::id())->with(['cartItems.product'])->get();
-        return view('pages.cart', compact('carts'));
+        $cart = Auth::user()->cart()->with('cartItems.product')->first();
+        return view('pages.cart', compact('cart'));
     }
 
-    public function addToCart(CartRequest $request)
+    public function addToCart(CartCreateRequest $request)
     {
-        // Получаем ID товара и количество из запроса
-        $productId = $request->input('product_id');
-        $quantity = $request->input('quantity', 1);
+//        // Получаем количество из запроса
+//        $quantity = $request->input('quantity', 1);
 
-        // Найдем товар в базе данных
-        $product = Products::find($productId);
-        if (!$product) {
-            return redirect()->back()->with('error', 'Товар не найден.');
-        }
+//        // Найдем товар в базе данных
+//        $product = Products::find($productId);
+//        if (!$product) {
+//            return redirect()->back()->with('error', 'Товар не найден.');
+//        }
 
-        // Проверяем доступность товара
-        if (!$product->available) {
-            return redirect()->back()->with('error', 'Товар недоступен для добавления в корзину.');
-        }
-
-        // Получаем корзину пользователя или создаем новую, если ее нет
-        $cart = Carts::firstOrCreate(['user_id' => Auth::id()]);
-
-        // Проверяем текущее количество товара в корзине
-        $cartItem = CartItems::where('cart_id', $cart->id)->where('product_id', $productId)->first();
-
-        $currentQuantity = $cartItem ? $cartItem->quantity : 0;
-        $totalRequestedQuantity = $currentQuantity + $quantity;
-
-        // Проверяем доступное количество товара
-        if ($totalRequestedQuantity > $product->quantity) {
-            return redirect()->back()->with('error', 'Доступно только ' . $product->quantity . ' единиц товара.');
-        }
+//        // Проверяем доступность товара
+//        if (!$product->available) {
+//            return redirect()->back()->with('error', 'Товар недоступен для добавления в корзину.');
+//        }
 
 
-        if ($cartItem) {
-            // Если товар уже в корзине, увеличиваем количество
-            $cartItem->quantity += $quantity;
-            $cartItem->save();
-        } else {
-            // Если товара нет, добавляем его в корзину
-            CartItems::create([
-                'cart_id' => $cart->id,
-                'product_id' => $productId,
-                'quantity' => $quantity,
-            ]);
-        }
+//
+//        $currentQuantity = $cartItem ? $cartItem->quantity : 0;
+//        $totalRequestedQuantity = $currentQuantity + $quantity;
 
-        // Расчет общей стоимости
-        $totalPrice = CartItems::where('cart_id', $cart->id)
-            ->join('products', 'cart_items.product_id', '=', 'products.id')
-            ->sum(DB::raw('cart_items.quantity * products.price'));
+//        // Проверяем доступное количество товара
+//        if ($totalRequestedQuantity > $product->quantity) {
+//            return redirect()->back()->with('error', 'Доступно только ' . $product->quantity . ' единиц товара.');
+//        }
 
-        // Обновляем поле total_price в корзине
-        $cart->total_price = $totalPrice;
-        $cart->save();
+        $cartItem = auth()->user()->cart->cartItems()->firstOrCreate([
+            'product_id' => $request->product_id,
+        ]);
+        $cartItem->quantity += $request->quantity;
+        $cartItem->save();
 
         return redirect()->back()->with('success', 'Товар успешно добавлен в корзину.');
     }
 
-    public function update(CartRequest $request, $cartItemId)
+    public function update(CartUpdateRequest $request, $cartItemId)
     {
-        $request->all();
+        CartItems::where('id', $cartItemId)->update(['quantity' => $request->quantity]);
 
-        $cartItem = CartItems::findOrFail($cartItemId);
+//        $product = Products::find($cartItem->product_id);
 
-        $product = Products::find($cartItem->product_id);
+//        // Проверяем доступное количество товара
+//        if ($request->input('quantity') > $product->quantity) {
+//            return redirect()->back()->with('error', 'Доступно только ' . $product->quantity . ' единиц товара.');
+//        }
 
-        // Проверяем доступное количество товара
-        if ($request->input('quantity') > $product->quantity) {
-            return redirect()->back()->with('error', 'Доступно только ' . $product->quantity . ' единиц товара.');
-        }
 
-        // Обновляем количество товара
-        $cartItem->quantity = $request->input('quantity');
-        $cartItem->save();
-
-        // Пересчитываем общую стоимость корзины
-        $cart = Carts::find($cartItem->cart_id);
-        $totalPrice = CartItems::where('cart_id', $cart->id)
-            ->join('products', 'cart_items.product_id', '=', 'products.id')
-            ->sum(DB::raw('cart_items.quantity * products.price'));
-
-        $cart->total_price = $totalPrice;
-        $cart->save();
+//        // Пересчитываем общую стоимость корзины
+//        $cart = Carts::find($cartItem->cart_id);
+//        $totalPrice = CartItems::where('cart_id', $cart->id)
+//            ->join('products', 'cart_items.product_id', '=', 'products.id')
+//            ->sum(DB::raw('cart_items.quantity * products.price'));
+//
+//        $cart->total_price = $totalPrice;
+//        $cart->save();
 
         return redirect()->back()->with('success', 'Количество товара обновлено.');
     }
 
+    public function store($id)
+    {
+        $cart = Carts::find($id);
+        $order = Orders::create([
+            'user_id' => auth()->id(),
+            'status' => 'В ожидании',
+            'total_price' => $cart->calculateTotalPrice(),
+        ]);
 
+        $cart->cartItems->each(function ($item) use ($order) {
+            OrderItems::create([
+                'order_id' => $order->id,
+                'product_id' => $item->product_id,
+                'quantity' => $item->quantity,
+            ]);
+
+            $product = Products::find($item->product_id);
+            $product->quantity -= $item->quantity;
+            $product->available = $product->quantity > 0;
+            $product->save();
+        });
+
+        CartItems::where('cart_id', $cart->id)->delete();
+
+        return redirect()->back()->with('success', 'Заказ оформлен.');
+    }
 }

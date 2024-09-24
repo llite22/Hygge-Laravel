@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Feedback\AdminFeedbackRequest;
+use App\Models\Carts;
 use App\Models\Feedbacks;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -33,6 +34,7 @@ class AdminFeedbacksController extends Controller
             $message->to($user->email)
                 ->subject('Ваш пароль от аккаунта. Добро пожаловать!');
         });
+        Carts::create(['user_id' => $user->id]);
 
         $feedback = Feedbacks::where('email', $request->email)->first();
         $feedback->status = true;

@@ -102,6 +102,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
     Route::patch('/cart/update/{cartItemId}', [CartController::class, 'update'])->name('cart.update');
+    Route::post('/cart/order-placement/{id}', [CartController::class, 'store'])->name('cart.order-placement');
 });
 
 require __DIR__ . '/auth.php';

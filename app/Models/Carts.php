@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Carts extends Model
 {
@@ -20,5 +21,15 @@ class Carts extends Model
     public function cartItems()
     {
         return $this->hasMany(CartItems::class, 'cart_id', 'id');
+    }
+
+
+    // Функция для расчета итоговой стоимости корзины с актуальной ценой товаров
+    public function calculateTotalPrice()
+    {
+        return $this->cartItems()->with('product')->get()->sum(function ($cartItem) {
+            // Получаем актуальную цену продукта и умножаем на количество
+            return $cartItem->quantity * $cartItem->product->price;
+        });
     }
 }
