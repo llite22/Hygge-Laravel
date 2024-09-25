@@ -27,10 +27,11 @@ class AdminSlidersController extends Controller
     public function store(SlidersRequest $request)
     {
         if($request->has('base64_image')) {
+            $name = $request->file('image')->getClientOriginalName();
             $imageData = explode(',', $request->base64_image)[1];
             $image = base64_decode($imageData);
             $fileName = time() . '_' . $request->file_name;
-            $relativePath = 'images/' . $fileName;
+            $relativePath = 'images/' . $fileName . $name;
 
             Storage::disk('public')->put($relativePath, $image);
 
