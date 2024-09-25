@@ -47,7 +47,7 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     // Админ Категории продуктов
     Route::get('/admin/category-products', [AdminCategoryProductsController::class, 'index'])->name('admin.category-products');
     Route::get('/admin/category-products/create', [AdminCategoryProductsController::class, 'create'])->name('admin-category-products.create');
-    Route::post('/admin/category-products', [AdminCategoryProductsController::class, 'store'])->name('admin-category-products.store');
+//    Route::post('/admin/category-products', [AdminCategoryProductsController::class, 'store'])->name('admin-category-products.store');
     Route::get('/admin/category-products/edit/{category_product}', [AdminCategoryProductsController::class, 'edit'])->name('admin-category-products.edit');
     Route::patch('/admin/category-products/{category_product}', [AdminCategoryProductsController::class, 'update'])->name('admin-category-products.update');
     Route::delete('/admin/category-products/{category_product}', [AdminCategoryProductsController::class, 'destroy'])->name('admin-category-products.destroy');

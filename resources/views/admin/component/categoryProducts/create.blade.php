@@ -38,7 +38,7 @@
             let name = $('#name').val();
 
             $.ajax({
-                url: "/admin/category-products",
+                url: "/api/admin/category-products",
                 type: "POST",
                 data: {
                     "_token": "{{ csrf_token() }}",
