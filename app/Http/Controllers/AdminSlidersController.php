@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SlidersRequest;
 use App\Models\Sliders;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -25,11 +26,17 @@ class AdminSlidersController extends Controller
 
     public function store(SlidersRequest $request)
     {
-        if($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
+        if($request->has('base64_image')) {
+            $imageData = explode(',', $request->base64_image)[1];
+            $image = base64_decode($imageData);
+            $fileName = time() . '_' . $request->file_name;
+            $relativePath = 'images/' . $fileName;
+
+            Storage::disk('public')->put($relativePath, $image);
+
             $upload = new Sliders();
             $upload->text = $request->text;
-            $upload->image = $imagePath;
+            $upload->image = $relativePath;
             $upload->save();
         }
         return redirect()->route('admin.sliders');
@@ -62,6 +69,8 @@ class AdminSlidersController extends Controller
         return redirect()->route('admin.sliders');
 
     }
+
+
 
     public function destroy($table = null, $id)
     {
