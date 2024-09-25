@@ -129,6 +129,7 @@
     multiCheck(c3);
 </script>
 <script src="{{asset('adminJS/bs_validation_script.js')}}"></script>
+
 <!-- END PAGE LEVEL SCRIPTS -->
 
 </body>

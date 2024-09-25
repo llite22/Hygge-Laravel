@@ -3,10 +3,7 @@
     <div id="content" class="main-content">
         <div class="layout-px-spacing">
             <div class="d-flex justify-content-center">
-                <form class="simple-example col-lg-10"
-                      action="{{route('admin-category-products.store')}}" method="POST" novalidate
-                      enctype="multipart/form-data">
-                    @csrf
+                <form id="categoryProducts" class="simple-example col-lg-10">
                     <div class="form-row">
                         <div class="col-md-12 mb-4">
                             <label for="name">Имя категории</label>
@@ -30,5 +27,28 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+
+    <script>
+
+        $('#categoryProducts').on('submit', function (event) {
+            event.preventDefault();
+
+            let name = $('#name').val();
+
+            $.ajax({
+                url: "/admin/category-products",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    name: name,
+                },
+                success: function (response) {
+                    console.log(response);
+                },
+            });
+        });
+    </script>
 @endsection
 
