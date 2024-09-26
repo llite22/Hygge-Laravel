@@ -30,7 +30,7 @@
     </div>
 </div>
 
-@include('admin.component.sidebar', ['nameTables' => ['Пользователи', 'Продукты категорий', 'Продукты','Заказы', 'Слайдеры', 'Категории', 'Изображения категорий', 'Обратная связь'], 'routers' => ['admin.users', 'admin.category-products', 'admin.products', 'admin.orders', 'admin.sliders', 'admin.categories', 'admin.category-images', 'admin.feedbacks']])
+@include('admin.component.sidebar', ['nameTables' => ['Продукты','Заказы', 'Слайдеры', 'Категории', 'Изображения категорий', 'Обратная связь'], 'routers' => ['admin.products', 'admin.orders', 'admin.sliders', 'admin.categories', 'admin.category-images', 'admin.feedbacks']])
 @yield('content')
 
 <script src="{{asset('adminJS/jquery-3.1.1.min.js')}}"></script>
